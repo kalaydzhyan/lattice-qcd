@@ -1,0 +1,11 @@
+VirtualOrganisation = "lattice.itep.ru";
+Executable = "gsiftp.pl";
+StdOutput = "std.out";
+StdError = "std.err";
+OutputSandbox = {"std.out","std.err"};
+InputSandbox = {"gsiftp.pl"};
+InputData = {"lfn://JLDG/CP-PACS/RCNF2/RC12x24-B1800K014090C1600-A-00210"};
+DataAccessProtocol = {"gsiftp"};
+Requirements=RegExp("ce3.itep.ru",other.GlueCEUniqueID);
+JobType = "Normal";
+RetryCount = 7;

@@ -1,0 +1,11 @@
+VirtualOrganisation = "lattice.itep.ru";
+#Type = "Job";
+Executable = "testing.sh";
+Arguments = "";
+StdOutput = "std.out";
+StdError = "std.err";
+OutputSandbox = {"std.out","std.err"};
+InputSandbox = {"testing.sh"};
+Requirements=RegExp("ce3.itep.ru",other.GlueCEUniqueID);
+JobType = "Normal";
+RetryCount = 7;

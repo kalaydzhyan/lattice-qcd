@@ -1,0 +1,13 @@
+      5.9e0          b
+      1              init
+      0              ints
+      10             iter
+      10             nav
+      2              niter
+      1200.e6        timemax
+      1              nhit
+      1000           ngfmax
+      1.e-7          epsrzz
+      1.8            omega
+      1              nrnd
+      3000           ngfmax

@@ -1,0 +1,1 @@
+voms-proxy-destroy

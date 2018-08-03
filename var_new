@@ -1,0 +1,186 @@
+###############################################################################
+#
+DEBUG		=	0
+TIMING		=	0
+NCOLORS		=	3
+EFIELD		= 	1
+MU		=	0
+# single precision -1, double precision - 0 (default)
+SINGLE		=	1
+LAT_S		= 	16
+LAT_T		=	16
+MAX_ARNOLDI_ITER=	500
+
+ifeq ("$(NCOLORS)", "2")
+SUFF		=
+endif	
+
+ifeq ("$(NCOLORS)", "3")
+SUFF		=	_su3
+endif	
+
+LONG_INTERNAL_ARITHMETIC	=	1
+NOISY_OUTPUT			=	0
+
+###############################################################################
+# Compiler setup
+CC			=	gcc
+LD			=	gcc
+FC			=	gfortran
+
+###############################################################################
+# Include dir
+INC_DIR		=	./include
+# Source dir
+SRC_DIR		=	./src
+# Where to put *.o files
+OBJ_DIR		=	./obj
+#  Where to put binaries
+BIN_DIR		= 	./bin
+# Where to put libraries
+LIB_DIR		=	./lib
+
+
+###############################################################################
+# DO NOT EDIT BELOW THIS LINE
+
+ifeq ("$(MU)", "1")
+SUFF		:=	$(SUFF)_mu
+endif
+
+SUFF		:=	$(SUFF)_$(LAT_S)$(LAT_T)
+
+SYSTEM		=	$(shell uname)
+ARCH		=	$(shell uname -m)
+
+ifneq ("$(SYSTEM)", "Linux")
+$(error "System $(SYSTEM) is unsupported.")
+endif
+
+AR			=	ar
+AROPTS		=	cr
+RANLIB		=	ranlib
+
+CFLAGS		=	-I$(INC_DIR)
+CFLAGS		+=	-DLAT_S=$(LAT_S) -DLAT_T=$(LAT_T)
+CFLAGS		+=	-DMAX_ARNOLDI_ITER=$(MAX_ARNOLDI_ITER)
+CFLAGS		+= 	-D_GNU_SOURCE
+CFLAGS		+=	-DARNOLDI_LOG
+CFLAGS		+=	-DMINMAX_LOG
+#CFLAGS		+=	-DEXP_SSE
+CFLAGS		+=	-DOV_DIRAC_ORTHO_PROJ
+#CFLAGS		+=	-DOV_DIRAC_CONV_LOG
+#CFLAGS		+=	-DOV_DIRAC_PROG_BAR
+#CFLAGS		+=	-DSCALAR
+#CFLAGS		+=	-DCHECK_NORM
+
+# Options for C compiler
+LDFLAGS		+=	-L $(OBJ_DIR) -L $(LIB_DIR) -larpack -llapack -lblas -lm
+ifeq ("$(CC)", "icc")
+CFLAGS		+=	-w1
+LDFLAGS		+=	-lguide -lpthread
+else
+CFLAGS		+=	-Wall -Winline -msse -mfpmath=sse,387
+endif
+
+FFLAGS		=	-I$(INC_DIR) -Wall 
+
+# Options for Fortran compiler
+FFLAGS		= -I$(INC_DIR)
+ifeq ("ifort", "$(findstring ifort, $(FC))") 
+FFLAGS		+=	-O3 -w90 -w95 -static
+NOOPT		=	-mp -w90 -w95
+CFLAGS		+=	-DUNSC
+LDFLAGS		+=	-lifcore -lirc -limf -L/opt/intel_fc_80/lib/
+LDFLAGS		+=	-lg2c
+else
+ifeq ("gfortran", "$(findstring gfortran, $(FC))")
+FFLAGS		+=	-O2
+NOOPT		=	-O0
+CFLAGS		+=	-DUNSC
+LDFLAGS		+=	-lgfortran -lm
+else
+FFLAGS		+=	-O2
+NOOPT		=	-O0
+CFLAGS		+=	-DUNSC2
+LDFLAGS		+=      -lg2c
+LDFLAGS		+=	-lm
+endif
+
+endif
+
+#CFLAGS          += -fopenmp
+#LDFLAGS         += -fopenmp
+
+###############################################################################
+
+ifeq ("$(TIMING)", "1")
+CFLAGS		+=	-DTIMING
+endif
+
+ifeq ("$(EFIELD)", "1")
+CFLAGS		+=	-DEFIELD
+LDFLAGS		+=	-DEFIELD
+endif
+
+ifeq ("$(MU)", "1")
+CFLAGS		+=	-DMU
+LDFLAGS		+=	-DMU
+endif
+
+ifeq ("$(NCOLORS)", "2")
+CFLAGS		+=	-DSU2
+LDFLAGS		+=	-DSU2
+endif
+
+ifeq ("$(NCOLORS)", "3")
+CFLAGS		+=	-DSU3
+LDFLAGS		+=	-DSU3
+endif
+
+ifeq ("$(LONG_INTERNAL_ARITHMETIC)", "1")
+CFLAGS		+=	-DLONG_INTERNAL_ARITHMETIC
+LDFLAGS		+=	-DLONG_INTERNAL_ARITHMETIC
+endif
+
+ifeq ("$(NOISY_OUTPUT)","1")
+CFLAGS		+=	-DNOISY_OUTPUT
+LDFLAGS		+=	-DNOISY_OUTPUT
+endif
+
+ifeq ("$(ARCH)", "i686")
+CFLAGS		+=	-DI686
+endif
+
+ifeq ("$(SINGLE)", "1")
+SUFF		:=	$(SUFF)s
+CFLAGS		+=	-DSINGLE_PREC
+else
+SUFF		:=	$(SUFF)d
+CFLAGS		+=	-DDOUBLE_PREC
+endif
+
+ifeq ("$(DEBUG)", "1")
+CFLAGS		+=	-g -pg -DDEBUG
+LDFLAGS		+=	-g -pg
+FFLAGS		+=	-g -DDEBUG
+SUFF		:=	$(SUFF)_dbg
+else
+ifeq ("$(CC)", "icc")
+# ICC optimization
+CFLAGS		+=	-O3 -xK -unroll -ip -parallel
+
+ifeq ("$(SINGLE)", "1")
+CFLAGS		+=	#-pc64
+endif
+
+else
+#GCC optimization
+CFLAGS		+=	-O2 -finline-functions -funroll-loops
+endif
+endif
+
+BLAS_LIB	=	libblas.a
+LAPACK_LIB	=	liblapack.a
+ARPACK_LIB	=	libarpack.a
+

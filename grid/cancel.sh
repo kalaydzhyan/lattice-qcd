@@ -1,0 +1,1 @@
+glite-wms-job-cancel -i job_id

@@ -1,0 +1,19 @@
+#ifndef _WILSON_SCALAR_CORR_H_
+#define _WILSON_SCALAR_CORR_H_
+
+#include <MC-SU2.h>
+#include <wilson-loops.h>
+
+/* Callback args: 
+    1. uint  - Wilson loop center point index
+    2. uchar - Wilson loop 'time' direction
+    3. uchar - Wilson loop 'space' direction
+    4. uint  - Index of the point at which a particular observable is to be measured
+*/
+extern int make_wilson_scalar( uchar smearing,
+			       double (*callback[])( uint, uchar, uchar, uint ),
+			       char *filename[],    uchar N_callback );
+
+extern void free_wilson_scalar();
+extern int mean_wilson_scalar( char *old, char *new );
+#endif

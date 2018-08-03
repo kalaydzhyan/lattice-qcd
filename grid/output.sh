@@ -1,0 +1,1 @@
+glite-wms-job-output -i job_id

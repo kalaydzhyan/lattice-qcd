@@ -1,0 +1,85 @@
+c***********************************************************************
+c***********************************************************************
+c                  SU2LGFL.CMN
+c
+c     Common blocks for the program SU2LGFL.F
+c     Version : 02.2007
+c=======================================================================
+
+      implicit double precision(a-h,o-z)
+
+      parameter(ndim=4,ndim1=ndim-1)
+      parameter(ndim2=(ndim*ndim1)/2)
+      parameter(lsize=8,lsizet=4)
+      parameter(lengs=lsize,lengt=lsizet)
+      parameter(nsites=lsizet*lsize**ndim1)
+      parameter(nlinks=ndim*nsites)
+      parameter(nplaqs=ndim2*nsites)
+      parameter(nli4=4*nlinks)
+      parameter(nmeas_max=999)
+
+      real*4 aold
+
+      COMMON /neighb/   NBP(4,nsites),NBN(4,nsites)
+      COMMON /neighb4/  NBP4(4,nsites),NBN4(4,nsites)
+      COMMON /neighb16/ NBP16(4,nsites),NBN16(4,nsites)
+c     COMMON /nbn/   NBPN(NST,4,LMM),NBNN(NST,4,LMM)
+
+      common/par01/ beta,alfa
+      common/par02/ nmeas,ntherm,nempty,noverupdate
+      common/par03/ itmax,nunit,ncopy,ncopya,ncopyb,iflips
+      common/par04/ tmax,tmc,tmin,ddtemp
+      common/par05/ pi,tpi,p2i
+      common/par06/ igfmax,niter,nor
+      common/par07/ px0,py0,pz0,pt0
+      common/par08/ jflips,iswitch 
+
+      common/lor_copies1/ n_poss_copies,n_fc_change,n_copy_total
+      common/lor_copies2/ n_gribov
+      common/lor_copies3/ eps_copy
+
+      common/aux01/ isp1,isp2,isp3,isp4,isl1,isl2,isl3,isl4
+      common/aux02/ np1,np2,np3,np4,lp1,lp2,lp3,lp4
+      common/aux03/ aold(nli4)
+c     common/auxn03/ arand(nli4)
+      common/aux04/ anew(nli4)
+c     common/aux044/ abest(nli4)
+c     common/auxn044/ abest2(nli4),abest3(nli4),abest4(nli4)
+      common/aux05/ pls,plt
+      common/aux07/ div_max,div_min,ds
+      common/aux08/ s_lg
+      common/aux09/ nrun,info
+      common/aux10/ str(4)
+      common/aux11/ str0(4),str1(4),str2(4),str3(4)
+
+      common/obs01/ plaqs(nmeas_max),avplaqs,erplaqs,fsplaqs
+      common/obs02/ plaqt(nmeas_max),avplaqt,erplaqt,fsplaqt
+      common/obs03/ itplaqs,itplaqt,itploop(ndim)
+      common /dataploop/ strt
+
+
+      common/cp1/ itmx
+      common/cp09/ mcopy, mmeas
+      common/cp12/ slgfin
+      common/cp33/ icbst
+      common/imic/ im(nmeas_max)
+
+
+c*********************************************************
+
+      common/lorents1/ nitera, nlit_max
+      common/lorents2/ rlor_it, rslg
+      common/small_num/ epsilon 
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      parameter(nsu2alg = 3)
+      parameter(nalg_sites = nsu2alg * nsites)
+      common/asym/ nasym(3,3,3)
+c     common/gh_field1/ source_sin(nalg_sites),source_cos(nalg_sites)
+c     common/gh_field2/      gh_vv(nalg_sites),     gh_ww(nalg_sites)
+
+      parameter(ncg_max=50000)
+      common/congrad1/ niter1, ncall, nit_max, nit_tot
+      common/congrad2/ cg_rest, rit_av
+

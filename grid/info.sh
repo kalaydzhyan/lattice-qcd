@@ -1,0 +1,1 @@
+lcg-infosites --vo lattice.itep.ru all

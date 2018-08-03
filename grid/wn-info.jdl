@@ -1,0 +1,12 @@
+VirtualOrganisation = "lattice.itep.ru";
+#Type = "Job";
+Executable = "/bin/sh";
+Arguments = "test.sh";
+StdOutput = "std.out";
+StdError = "std.err";
+OutputSandbox = {"std.out","std.err"};
+InputSandbox = {"toverlap1.tar", "test.sh"};
+Requirements=RegExp("ce3.itep.ru",other.GlueCEUniqueID);
+#Requirements = other.GlueCEUniqueID == "ce3.itep.ru:2119/jobmanager-lcgpbs-lattice.itep.ru";
+JobType = "Normal";
+RetryCount = 7;

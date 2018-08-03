@@ -1,0 +1,29 @@
+    2.95000000                         !  beta          coupling
+    1.70000000                         !  alfa          OR parameter
+    1.d-6                              !  epsilon       GF precision
+    1.d-10                             !  eps_copy      Gribov noise
+             3                         !  init          choose start
+           998    !20                  !  nmeas
+          1000                         !  ntherm        nsweeps for therm.
+           600    !500 20              !  nempty        nsweeps between measur.
+             3                         !  noverupdate   overrel. per heatbath   
+          5000   !10000                !  itmax         N_iter in standard LG   
+            10                         !  nunit         unitarization
+            20    !20                  !  ncopya
+             1                         !  ncopyb
+             1                         !  iflips        decides z2_flips
+    1.50000000                         !  tmax          initial  temper.
+    0.10000000                         !  tmc
+    0.01000000                         !  tmin          final temper.
+          2000  !1600                  !  niter         total number of SA sweeps
+    1.d-6                              !  cg_rest       CG precision
+             1                         !  nkmom
+             4                         !  info          decides GF and GP meas.
+             4                         !  nor           ratio HB/OR is 1:(nor-1) 
+          3739                         !  iran(1)
+          1655                         !  iran(2)
+          2730                         !  iran(3)
+          1850                         !  iran(4)
+!fVB           400                         !  it_ctf1
+
+

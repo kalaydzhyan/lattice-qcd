@@ -1,0 +1,13 @@
+      implicit complex*16 (u-z)
+      implicit real*8 (a-h,o-t)
+ 
+c     parameter (n1= 16,n2= 16,n3= 16,n4= 32)
+c     parameter (n1= 16,n2= 16,n3= 16,n4= 16)
+c     parameter (n1= 24,n2= 24,n3= 24,n4= 24)
+c     parameter (n1= 8,n2= 8,n3= 8,n4= 8)
+      parameter (n1= 4,n2= 4,n3= 4,n4= 4)
+      parameter (n0=n1/2)
+      parameter (nd=4)
+      parameter (nsite=n1*n2*n3*n4,nlink=nd*nsite, nvect=nsite/2)
+      parameter (nvect2=nvect*2,nvect3=nvect*3)
+      parameter (nspc =n1*n2*n3)
